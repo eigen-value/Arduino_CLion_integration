@@ -1,2 +1,2 @@
 # Arduino_CLion_integration
-An example file to develop Arduino libs in JetBrains CLion IDE
+An example CMakeLists.txt file to develop Arduino libs in JetBrains CLion IDE
