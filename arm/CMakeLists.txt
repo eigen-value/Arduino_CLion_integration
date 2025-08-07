@@ -1,15 +1,19 @@
+# CMakeLists.txt file for arm boards
+# UNO R4 MINIMA example
+
 cmake_minimum_required(VERSION 3.16)
 
-project(Arduino_MyLib VERSION 0.0.1 LANGUAGES CXX)
+project(MyLib VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(ARDUINO_SDK_PATH "C:/Users/<username>/AppData/Local/Arduino15")
-set(ARDUINO_CORE_PATH "${ARDUINO_SDK_PATH}/packages/arduino/hardware/avr/1.8.6/cores/arduino")
-set(ARDUINO_VARIANT_PATH "${ARDUINO_SDK_PATH}/packages/arduino/hardware/avr/1.8.6/variants/standard")
-set(ARDUINO_TOOLCHAIN_PATH "${ARDUINO_SDK_PATH}/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/avr/include")
+set(ARDUINO_LIBS_PATH "C:/Users/<username>/Documents/Arduino/libraries")
+set(ARDUINO_CORE_PATH "${ARDUINO_SDK_PATH}/packages/arduino/hardware/renesas_uno/1.4.1/cores/arduino")
+set(ARDUINO_VARIANT_PATH "${ARDUINO_SDK_PATH}/packages/arduino/hardware/renesas_uno/1.4.1/variants/MINIMA")
+set(ARDUINO_TOOLCHAIN_PATH "${ARDUINO_SDK_PATH}/packages/arduino/tools/arm-none-eabi-gcc/7-2017q4/lib/gcc/arm-none-eabi/7.2.1/include")
 
 # Collect header files
 file(GLOB_RECURSE HEADERS "src/*.h" "src/*.hpp")
@@ -34,22 +38,26 @@ target_include_directories(${PROJECT_NAME}
         ${ARDUINO_TOOLCHAIN_PATH}
 
         # Arduino libraries (common ones)
-        C:/Users/<username>/AppData/Local/Arduino15/libraries
+        ${ARDUINO_SDK_PATH}/libraries
 
-        # Arduino MyLib dependencies
-        C:/Users/<username>/Documents/Arduino/libraries/FirstDependency
+        # Arduino RouterBridge dependencies
+#        ${ARDUINO_LIBS_PATH}/CAN/src
+#        ${ARDUINO_LIBS_PATH}/Arduino_BMI270_BMM150/src
+#        ${ARDUINO_LIBS_PATH}/Adafruit_BMP280_Library
 
         # HW specific libs
-        /home/username/.arduino15/packages/arduino/hardware/avr/1.8.6/libraries
+#        ${ARDUINO_SDK_PATH}/packages/arduino/hardware/renesas_uno/1.4.1/libraries/EEPROM/src
+#        ${ARDUINO_SDK_PATH}/packages/arduino/hardware/renesas_uno/1.4.1/libraries/Wire
 )
 
 # Add Arduino defines
 target_compile_definitions(${PROJECT_NAME}
         PUBLIC
         ARDUINO=10819
-        AVR
-        __AVR_ATmega328P__
-        F_CPU=16000000L
+        ARDUINO_UNOR4_MINIMA
+        ARDUINO_ARCH_RENESAS
+        __RA4M1__
+        CPU_SPEED=48000000L
 )
 
 # Mark headers as public headers
